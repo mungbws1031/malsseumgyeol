@@ -48,7 +48,7 @@ export default function Reader({
       <nav className="passage-chips" aria-label="본문 목록">
         {passages.map((p, i) => (
           <button
-            key={`${p.book}${p.chapter}`}
+            key={p.ref}
             className={`chip${i === activeIdx ? ' active' : ''}`}
             onClick={() => onSelectPassage(i)}
           >

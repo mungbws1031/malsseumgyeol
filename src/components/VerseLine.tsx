@@ -21,12 +21,18 @@ export default function VerseLine({
   const key = verseKey(passage.book, passage.chapter, verse.n);
   const isHighlighted = Boolean(highlights[key]);
   const pressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const didLongPress = useRef(false);
 
   const handleClick = useCallback(() => {
+    if (didLongPress.current) {
+      didLongPress.current = false;
+      return;
+    }
     onSelectVerse(verse, passage);
   }, [verse, passage, onSelectVerse]);
 
   const handleLongPress = useCallback(() => {
+    didLongPress.current = true;
     const next = toggleHighlight(key);
     onHighlightChange(next);
   }, [key, onHighlightChange]);

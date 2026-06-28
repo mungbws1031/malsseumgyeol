@@ -138,6 +138,7 @@ export default function GlossPanel({
               placeholder="이 구절에 대한 메모를 남겨요…"
               rows={3}
               autoFocus
+              aria-label="메모"
             />
             <div className="note-actions">
               <button className="note-save" onClick={handleSaveNote}>저장</button>
