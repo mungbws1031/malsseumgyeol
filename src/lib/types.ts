@@ -24,4 +24,5 @@ export type Settings = {
   fontScale: 1 | 2 | 3;
   depth: Depth;
   permanentGlossCache: boolean;
+  apiKey?: string;
 };

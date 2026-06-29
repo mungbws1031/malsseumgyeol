@@ -17,6 +17,8 @@ interface Props {
   onOpenAdd: () => void;
   onOpenSaved: () => void;
   onOpenToc: () => void;
+  onOpenApiKey: () => void;
+  hasApiKey: boolean;
   onFontScaleChange: (s: 1 | 2 | 3) => void;
   onJumpToVerse: (book: string, chapter: number, n: number) => void;
 }
@@ -24,7 +26,7 @@ interface Props {
 export default function Reader({
   passages, activeIdx, selected,
   onSelectVerse, highlights, onHighlightChange,
-  settings, depth, onOpenAdd, onOpenSaved, onOpenToc,
+  settings, depth, onOpenAdd, onOpenSaved, onOpenToc, onOpenApiKey, hasApiKey,
   onFontScaleChange, onJumpToVerse,
 }: Props) {
   const active = passages[activeIdx];
@@ -53,6 +55,12 @@ export default function Reader({
           </div>
           <button className="saved-btn" onClick={onOpenSaved} aria-label="저장한 구절 보기">★ 저장 구절</button>
           <button className="add-btn" onClick={onOpenAdd} aria-label="본문 추가">＋ 본문 추가</button>
+          <button
+            className={`apikey-btn${hasApiKey ? ' set' : ''}`}
+            onClick={onOpenApiKey}
+            aria-label="API 키 설정"
+            title={hasApiKey ? 'API 키 설정됨' : 'API 키 필요'}
+          >{hasApiKey ? '🔑' : '🔑 키 설정'}</button>
         </div>
       </header>
 

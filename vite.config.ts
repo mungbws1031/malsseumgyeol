@@ -45,7 +45,7 @@ export default defineConfig({
       },
     }),
   ],
-  base: '/malsseumgyeol/',
+  base: '/',
   server: {
     proxy: {
       '/api': {

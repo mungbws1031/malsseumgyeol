@@ -17,13 +17,15 @@ interface Props {
   onHighlightChange: (m: HighlightMap) => void;
   onRetry: () => void;
   onClose: () => void;
+  onOpenApiKey: () => void;
+  noApiKey: boolean;
 }
 
 export default function GlossPanel({
   selected, gloss, loading, error,
   depth, onDepthChange,
   highlights, onHighlightChange,
-  onRetry, onClose,
+  onRetry, onClose, onOpenApiKey, noApiKey,
 }: Props) {
   const [noteInput, setNoteInput] = useState('');
   const [editingNote, setEditingNote] = useState(false);
@@ -99,8 +101,17 @@ export default function GlossPanel({
         )}
         {error && !loading && (
           <div className="gloss-error">
-            <p>풀이를 불러오지 못했어요. 다시 탭해 주세요.</p>
-            <button className="retry-btn" onClick={onRetry}>다시 시도</button>
+            {noApiKey ? (
+              <>
+                <p>AI 풀이를 사용하려면 Anthropic API 키가 필요합니다.</p>
+                <button className="retry-btn" onClick={onOpenApiKey}>🔑 API 키 입력</button>
+              </>
+            ) : (
+              <>
+                <p>풀이를 불러오지 못했어요. 다시 탭해 주세요.</p>
+                <button className="retry-btn" onClick={onRetry}>다시 시도</button>
+              </>
+            )}
           </div>
         )}
         {gloss && !loading && !error && (
