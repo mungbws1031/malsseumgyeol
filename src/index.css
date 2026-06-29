@@ -352,3 +352,44 @@ button {
   transition: color 0.15s, border-color 0.15s, background 0.15s;
 }
 .saved-btn:hover { border-color: var(--gold); background: rgba(201,162,74,.08); }
+
+/* Book Intro */
+.book-intro {
+  margin-bottom: 1.75rem;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.book-intro-toggle {
+  width: 100%; display: flex; align-items: center; gap: 0.5rem;
+  padding: 0.7rem 1rem;
+  background: var(--raised);
+  transition: background 0.15s;
+  text-align: left;
+}
+.book-intro-toggle:hover { background: rgba(201,162,74,.06); }
+.book-intro-book {
+  font-family: var(--font-serif); font-size: 0.95rem;
+  color: var(--gold-soft); font-weight: 600; flex: 1;
+}
+.book-intro-caret { font-size: 0.65rem; color: var(--muted); }
+.book-intro-hint { font-size: 0.72rem; color: var(--muted); font-family: var(--font-mono); }
+.book-intro-body {
+  padding: 0.9rem 1rem 1rem;
+  background: var(--surface);
+  display: flex; flex-direction: column; gap: 0.75rem;
+}
+.book-intro-meta {
+  display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem;
+}
+.book-intro-meta-item {
+  font-size: 0.8rem; color: var(--soft);
+  display: flex; gap: 0.4rem; align-items: baseline;
+}
+.book-intro-meta-label {
+  font-family: var(--font-mono); font-size: 0.68rem;
+  color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+}
+.book-intro-text {
+  font-size: 0.88rem; color: var(--soft); line-height: 1.8;
+}

@@ -1,6 +1,7 @@
 import type { Passage, Verse, Depth, Settings } from '../lib/types';
 import type { HighlightMap } from '../lib/storage';
 import VerseLine from './VerseLine';
+import BookIntro from './BookIntro';
 
 interface Props {
   passages: Passage[];
@@ -61,23 +62,26 @@ export default function Reader({
 
       <article className="passage-body" aria-label={active?.ref}>
         {active ? (
-          active.verses.map((v) => (
-            <VerseLine
-              key={v.n}
-              verse={v}
-              passage={active}
-              isSelected={
-                selected?.verse.n === v.n &&
-                selected?.passage.book === active.book &&
-                selected?.passage.chapter === active.chapter
-              }
-              highlights={highlights}
-              onHighlightChange={onHighlightChange}
-              depth={depth}
-              settings={settings}
-              onSelectVerse={onSelectVerse}
-            />
-          ))
+          <>
+            <BookIntro book={active.book} />
+            {active.verses.map((v) => (
+              <VerseLine
+                key={v.n}
+                verse={v}
+                passage={active}
+                isSelected={
+                  selected?.verse.n === v.n &&
+                  selected?.passage.book === active.book &&
+                  selected?.passage.chapter === active.chapter
+                }
+                highlights={highlights}
+                onHighlightChange={onHighlightChange}
+                depth={depth}
+                settings={settings}
+                onSelectVerse={onSelectVerse}
+              />
+            ))}
+          </>
         ) : (
           <p className="empty-msg">본문을 선택하거나 추가해 주세요.</p>
         )}
