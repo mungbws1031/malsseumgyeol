@@ -496,3 +496,30 @@ button {
   border-color: var(--gold-soft); color: var(--gold-soft);
   background: rgba(201,162,74,.08);
 }
+
+/* ── TOC tabs ─────────────────────────────────────── */
+.toc-tabs {
+  display: flex; border-bottom: 1px solid var(--rule); flex-shrink: 0;
+}
+.toc-tab {
+  flex: 1; padding: 0.6rem 0.5rem;
+  font-size: 0.8rem; color: var(--muted);
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+}
+.toc-tab.active { color: var(--gold-soft); border-bottom-color: var(--gold-soft); }
+.toc-tab:hover:not(.active) { color: var(--soft); }
+
+/* ── TOC chapter grid ─────────────────────────────── */
+.toc-chapters { display: grid; grid-template-columns: repeat(auto-fill, minmax(64px, 1fr)); gap: 2px; padding: 0.4rem 0.7rem 0.6rem; background: var(--bg); }
+.toc-chapters .toc-verse-btn {
+  flex-direction: column; align-items: center; justify-content: center;
+  padding: 0.35rem 0.2rem; border-radius: 4px;
+  border: 1px solid var(--rule);
+  background: var(--raised);
+}
+.toc-chapters .toc-verse-btn:hover { border-color: var(--gold-soft); background: rgba(201,162,74,.07); }
+.toc-chapters .toc-verse-btn.active { border-color: var(--gold-soft); color: var(--gold-soft); }
+.toc-chapters .toc-verse-n { font-size: 0.8rem; font-weight: 600; color: inherit; min-width: unset; }
+.toc-chapters .toc-verse-preview { display: none; }
+.toc-chevron { font-size: 0.6rem; }

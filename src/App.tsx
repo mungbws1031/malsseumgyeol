@@ -3,6 +3,7 @@ import { loadPassages, loadHighlights, loadSettings, saveSettings, saveCustomPas
 import { fetchGloss } from './lib/explain';
 import type { Passage, Gloss, Depth, Verse } from './lib/types';
 import type { HighlightMap } from './lib/storage';
+import { findChapter } from './data/bible';
 import Reader from './components/Reader';
 import GlossPanel from './components/GlossPanel';
 import AddPassageModal from './components/AddPassageModal';
@@ -64,6 +65,12 @@ export default function App() {
     setShowAddModal(false);
   }, []);
 
+  const scrollToTop = () => {
+    setTimeout(() => {
+      document.querySelector('.passage-body')?.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 80);
+  };
+
   const scrollToVerse = (n: number) => {
     setTimeout(() => {
       const el = document.querySelector(`.verse-line[data-n="${n}"]`);
@@ -71,7 +78,37 @@ export default function App() {
     }, 100);
   };
 
-  // 저장 구절 → 해당 패시지·절로 점프
+  // 성경 목차에서 장 선택 → passages에 없으면 추가, 있으면 바로 이동
+  const handleSelectChapter = useCallback((book: string, chapter: number) => {
+    const ch = findChapter(book, chapter);
+    if (!ch) return;
+
+    setPassages(prev => {
+      const existing = prev.findIndex(p => p.book === book && Number(p.chapter) === chapter);
+      if (existing !== -1) {
+        setActiveIdx(existing);
+        scrollToTop();
+        return prev;
+      }
+      const newPassage: Passage = {
+        ref: `${book} ${chapter}장`,
+        book,
+        chapter,
+        verses: ch.verses,
+      };
+      const next = [...prev, newPassage];
+      setActiveIdx(next.length - 1);
+      scrollToTop();
+      // 커스텀으로 저장
+      saveCustomPassage(newPassage);
+      return next;
+    });
+
+    setSelected(null);
+    setGloss(null);
+    setGlossOpen(false);
+  }, []);
+
   const handleJumpTo = useCallback((passageIdx: number, n: number) => {
     setActiveIdx(passageIdx);
     setSelected(null);
@@ -80,13 +117,6 @@ export default function App() {
     scrollToVerse(n);
   }, []);
 
-  // 목차에서 패시지 선택 (절 선택 옵션)
-  const handleTocSelect = useCallback((passageIdx: number, n?: number) => {
-    setActiveIdx(passageIdx);
-    if (n !== undefined) scrollToVerse(n);
-  }, []);
-
-  // 연관 구절 태그 클릭 → 앱 내 이동
   const handleJumpToVerse = useCallback((book: string, chapter: number, n: number) => {
     const idx = passages.findIndex(
       (p) => p.book === book && Number(p.chapter) === chapter,
@@ -94,8 +124,11 @@ export default function App() {
     if (idx !== -1) {
       setActiveIdx(idx);
       scrollToVerse(n);
+    } else {
+      // 없으면 해당 장 불러오기
+      handleSelectChapter(book, chapter);
     }
-  }, [passages]);
+  }, [passages, handleSelectChapter]);
 
   const handleRetry = useCallback(() => {
     if (!selected) return;
@@ -112,6 +145,8 @@ export default function App() {
       .then((g) => { setGloss(g); setGlossLoading(false); })
       .catch(() => { setGlossError(true); setGlossLoading(false); });
   }, [selected, settings.depth]);
+
+  const activePassage = passages[activeIdx];
 
   return (
     <div className="app" style={{ '--fs-base': `var(--fs-scale-${settings.fontScale})` } as React.CSSProperties}>
@@ -166,9 +201,9 @@ export default function App() {
 
       {showToc && (
         <TableOfContents
-          passages={passages}
-          activeIdx={activeIdx}
-          onSelect={handleTocSelect}
+          activeBook={activePassage?.book}
+          activeChapter={activePassage ? Number(activePassage.chapter) : undefined}
+          onSelectChapter={handleSelectChapter}
           onClose={() => setShowToc(false)}
         />
       )}
