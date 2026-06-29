@@ -47,6 +47,7 @@ export default function VerseLine({
   return (
     <p
       className={`verse-line${isSelected ? ' selected' : ''}${isHighlighted ? ' highlighted' : ''}`}
+      data-n={verse.n}
       onClick={handleClick}
       onPointerDown={onPointerDown}
       onPointerUp={onPointerUp}

@@ -6,6 +6,7 @@ import type { HighlightMap } from './lib/storage';
 import Reader from './components/Reader';
 import GlossPanel from './components/GlossPanel';
 import AddPassageModal from './components/AddPassageModal';
+import SavedVerses from './components/SavedVerses';
 
 export default function App() {
   const [passages, setPassages] = useState<Passage[]>(loadPassages);
@@ -18,6 +19,7 @@ export default function App() {
   const [settings, setSettings] = useState(loadSettings);
   const [showAddModal, setShowAddModal] = useState(false);
   const [glossOpen, setGlossOpen] = useState(false);
+  const [showSaved, setShowSaved] = useState(false);
 
   useEffect(() => {
     if (!selected) return;
@@ -60,6 +62,18 @@ export default function App() {
     setShowAddModal(false);
   }, []);
 
+  const handleJumpTo = useCallback((passageIdx: number, n: number) => {
+    setActiveIdx(passageIdx);
+    setSelected(null);
+    setGloss(null);
+    setGlossOpen(false);
+    // scroll to verse after render
+    setTimeout(() => {
+      const el = document.querySelector(`.verse-line[data-n="${n}"]`);
+      el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
+  }, []);
+
   const handleRetry = useCallback(() => {
     if (!selected) return;
     setGlossLoading(true);
@@ -90,6 +104,7 @@ export default function App() {
           settings={settings}
           depth={settings.depth}
           onOpenAdd={() => setShowAddModal(true)}
+          onOpenSaved={() => setShowSaved(true)}
           onFontScaleChange={handleFontScale}
         />
       </div>
@@ -113,6 +128,15 @@ export default function App() {
         <AddPassageModal
           onAdd={handleAddPassage}
           onClose={() => setShowAddModal(false)}
+        />
+      )}
+
+      {showSaved && (
+        <SavedVerses
+          highlights={highlights}
+          passages={passages}
+          onClose={() => setShowSaved(false)}
+          onJumpTo={handleJumpTo}
         />
       )}
     </div>

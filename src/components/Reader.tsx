@@ -13,13 +13,14 @@ interface Props {
   settings: Settings;
   depth: Depth;
   onOpenAdd: () => void;
+  onOpenSaved: () => void;
   onFontScaleChange: (s: 1 | 2 | 3) => void;
 }
 
 export default function Reader({
   passages, activeIdx, onSelectPassage, selected,
   onSelectVerse, highlights, onHighlightChange,
-  settings, depth, onOpenAdd, onFontScaleChange,
+  settings, depth, onOpenAdd, onOpenSaved, onFontScaleChange,
 }: Props) {
   const active = passages[activeIdx];
 
@@ -41,6 +42,7 @@ export default function Reader({
               </button>
             ))}
           </div>
+          <button className="saved-btn" onClick={onOpenSaved} aria-label="저장한 구절 보기">★ 저장 구절</button>
           <button className="add-btn" onClick={onOpenAdd} aria-label="본문 추가">＋ 본문 추가</button>
         </div>
       </header>
