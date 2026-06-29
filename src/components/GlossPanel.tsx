@@ -2,6 +2,7 @@ import type { Gloss, Depth, Verse, Passage } from '../lib/types';
 import type { HighlightMap } from '../lib/storage';
 import { verseKey, toggleHighlight, updateNote } from '../lib/storage';
 import { useState } from 'react';
+import { COMMENTARY_MAP } from '../data/commentary';
 
 const DEPTHS: Depth[] = ['묵상', '해설', '주해'];
 
@@ -32,6 +33,7 @@ export default function GlossPanel({
     : '';
   const isHighlighted = key ? Boolean(highlights[key]) : false;
   const existingNote = key ? highlights[key]?.note ?? '' : '';
+  const commentary = key ? COMMENTARY_MAP[key] ?? null : null;
 
   const handleToggleHighlight = () => {
     if (!key) return;
@@ -154,6 +156,14 @@ export default function GlossPanel({
           </button>
         )}
       </div>
+
+      {commentary && (
+        <div className="mh-commentary">
+          <span className="gloss-label">Matthew Henry 주석</span>
+          <p>{commentary}</p>
+          <small className="mh-source">출처: Matthew Henry's Commentary (1706) — 퍼블릭 도메인</small>
+        </div>
+      )}
     </div>
   );
 }
