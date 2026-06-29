@@ -7,6 +7,7 @@ import Reader from './components/Reader';
 import GlossPanel from './components/GlossPanel';
 import AddPassageModal from './components/AddPassageModal';
 import SavedVerses from './components/SavedVerses';
+import TableOfContents from './components/TableOfContents';
 
 export default function App() {
   const [passages, setPassages] = useState<Passage[]>(loadPassages);
@@ -20,6 +21,7 @@ export default function App() {
   const [showAddModal, setShowAddModal] = useState(false);
   const [glossOpen, setGlossOpen] = useState(false);
   const [showSaved, setShowSaved] = useState(false);
+  const [showToc, setShowToc] = useState(false);
 
   useEffect(() => {
     if (!selected) return;
@@ -62,17 +64,38 @@ export default function App() {
     setShowAddModal(false);
   }, []);
 
+  const scrollToVerse = (n: number) => {
+    setTimeout(() => {
+      const el = document.querySelector(`.verse-line[data-n="${n}"]`);
+      el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
+  };
+
+  // 저장 구절 → 해당 패시지·절로 점프
   const handleJumpTo = useCallback((passageIdx: number, n: number) => {
     setActiveIdx(passageIdx);
     setSelected(null);
     setGloss(null);
     setGlossOpen(false);
-    // scroll to verse after render
-    setTimeout(() => {
-      const el = document.querySelector(`.verse-line[data-n="${n}"]`);
-      el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }, 100);
+    scrollToVerse(n);
   }, []);
+
+  // 목차에서 패시지 선택 (절 선택 옵션)
+  const handleTocSelect = useCallback((passageIdx: number, n?: number) => {
+    setActiveIdx(passageIdx);
+    if (n !== undefined) scrollToVerse(n);
+  }, []);
+
+  // 연관 구절 태그 클릭 → 앱 내 이동
+  const handleJumpToVerse = useCallback((book: string, chapter: number, n: number) => {
+    const idx = passages.findIndex(
+      (p) => p.book === book && Number(p.chapter) === chapter,
+    );
+    if (idx !== -1) {
+      setActiveIdx(idx);
+      scrollToVerse(n);
+    }
+  }, [passages]);
 
   const handleRetry = useCallback(() => {
     if (!selected) return;
@@ -96,7 +119,6 @@ export default function App() {
         <Reader
           passages={passages}
           activeIdx={activeIdx}
-          onSelectPassage={setActiveIdx}
           selected={selected}
           onSelectVerse={handleSelectVerse}
           highlights={highlights}
@@ -105,7 +127,9 @@ export default function App() {
           depth={settings.depth}
           onOpenAdd={() => setShowAddModal(true)}
           onOpenSaved={() => setShowSaved(true)}
+          onOpenToc={() => setShowToc(true)}
           onFontScaleChange={handleFontScale}
+          onJumpToVerse={handleJumpToVerse}
         />
       </div>
 
@@ -137,6 +161,15 @@ export default function App() {
           passages={passages}
           onClose={() => setShowSaved(false)}
           onJumpTo={handleJumpTo}
+        />
+      )}
+
+      {showToc && (
+        <TableOfContents
+          passages={passages}
+          activeIdx={activeIdx}
+          onSelect={handleTocSelect}
+          onClose={() => setShowToc(false)}
         />
       )}
     </div>
