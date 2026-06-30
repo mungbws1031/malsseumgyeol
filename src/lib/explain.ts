@@ -18,13 +18,20 @@ const DEPTH_LINE: Record<string, string> = {
 async function callViaServer(
   book: string, chapter: number | string, n: number, text: string, depth: Depth,
 ): Promise<Gloss> {
-  const res = await fetch('/api/explain', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ book, chapter, n, text, depth }),
-  });
-  if (!res.ok) throw new Error('server_error');
-  return res.json() as Promise<Gloss>;
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 15000);
+  try {
+    const res = await fetch('/api/explain', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ book, chapter, n, text, depth }),
+      signal: controller.signal,
+    });
+    if (!res.ok) throw new Error('server_error');
+    return res.json() as Promise<Gloss>;
+  } finally {
+    clearTimeout(timer);
+  }
 }
 
 async function callDirect(
