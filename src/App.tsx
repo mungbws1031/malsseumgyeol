@@ -34,7 +34,13 @@ export default function App() {
     setGlossError(false);
     setNoApiKey(false);
     setGloss(null);
-    fetchGloss(passage.book, passage.chapter, verse.n, verse.text, depth)
+    const timeout = new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error('timeout')), 20000)
+    );
+    Promise.race([
+      fetchGloss(passage.book, passage.chapter, verse.n, verse.text, depth),
+      timeout,
+    ])
       .then((g) => { setGloss(g); setGlossLoading(false); })
       .catch((err) => {
         setGlossLoading(false);
