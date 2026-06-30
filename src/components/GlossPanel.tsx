@@ -170,9 +170,8 @@ export default function GlossPanel({
 
       {commentary && (
         <div className="mh-commentary">
-          <span className="gloss-label">Matthew Henry 주석</span>
+          <span className="gloss-label">성경 구절 해설</span>
           <p>{commentary}</p>
-          <small className="mh-source">출처: Matthew Henry's Commentary (1706) — 퍼블릭 도메인</small>
         </div>
       )}
     </div>
