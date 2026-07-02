@@ -2,6 +2,7 @@ import type { Passage, Verse, Depth, Settings } from '../lib/types';
 import type { HighlightMap } from '../lib/storage';
 import { verseKey } from '../lib/storage';
 import { RELATED_VERSES } from '../data/relatedVerses';
+import { findBook } from '../data/bible';
 import VerseLine from './VerseLine';
 import BookIntro from './BookIntro';
 
@@ -21,15 +22,21 @@ interface Props {
   hasApiKey: boolean;
   onFontScaleChange: (s: 1 | 2 | 3) => void;
   onJumpToVerse: (book: string, chapter: number, n: number) => void;
+  onSelectChapter: (book: string, chapter: number) => void;
 }
 
 export default function Reader({
   passages, activeIdx, selected,
   onSelectVerse, highlights, onHighlightChange,
   settings, depth, onOpenAdd, onOpenSaved, onOpenToc, onOpenApiKey, hasApiKey,
-  onFontScaleChange, onJumpToVerse,
+  onFontScaleChange, onJumpToVerse, onSelectChapter,
 }: Props) {
   const active = passages[activeIdx];
+  const bookData = active ? findBook(active.book) : undefined;
+  const currentChapter = active ? Number(active.chapter) : 0;
+  const totalChapters = bookData ? bookData.chapters.length : 0;
+  const hasPrev = currentChapter > 1;
+  const hasNext = currentChapter < totalChapters;
 
   return (
     <div className="reader">
@@ -95,6 +102,28 @@ export default function Reader({
           <p className="empty-msg">본문을 선택하거나 추가해 주세요.</p>
         )}
       </article>
+
+      {active && (
+        <nav className="chapter-nav" aria-label="장 이동">
+          <button
+            className="chapter-nav-btn"
+            onClick={() => onSelectChapter(active.book, currentChapter - 1)}
+            disabled={!hasPrev}
+            aria-label="이전 장"
+          >
+            ← {hasPrev ? `${currentChapter - 1}장` : ''}
+          </button>
+          <span className="chapter-nav-label">{active.book} {currentChapter}장 / {totalChapters}장</span>
+          <button
+            className="chapter-nav-btn"
+            onClick={() => onSelectChapter(active.book, currentChapter + 1)}
+            disabled={!hasNext}
+            aria-label="다음 장"
+          >
+            {hasNext ? `${currentChapter + 1}장` : ''} →
+          </button>
+        </nav>
+      )}
 
       <footer className="reader-footer">
         <small>AI 생성 풀이 — 신뢰할 주석서와 병행하세요</small>

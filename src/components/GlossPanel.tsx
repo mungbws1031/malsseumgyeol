@@ -96,10 +96,16 @@ export default function GlossPanel({
       </div>
 
       <div className="gloss-body">
+        {commentary && (
+          <div className="gloss-block mh-commentary">
+            <span className="gloss-label">성경 구절 해설</span>
+            <p>{commentary}</p>
+          </div>
+        )}
         {loading && (
           <p className="gloss-loading">말씀을 헤아리는 중…</p>
         )}
-        {error && !loading && (
+        {error && !loading && !commentary && (
           <div className="gloss-error">
             {noApiKey ? (
               <>
@@ -167,13 +173,6 @@ export default function GlossPanel({
           </button>
         )}
       </div>
-
-      {commentary && (
-        <div className="mh-commentary">
-          <span className="gloss-label">성경 구절 해설</span>
-          <p>{commentary}</p>
-        </div>
-      )}
     </div>
   );
 }

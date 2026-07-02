@@ -163,6 +163,7 @@ export default function App() {
           hasApiKey={Boolean(settings.apiKey)}
           onFontScaleChange={handleFontScale}
           onJumpToVerse={handleJumpToVerse}
+          onSelectChapter={handleSelectChapter}
         />
       </div>
 

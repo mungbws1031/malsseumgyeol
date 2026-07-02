@@ -158,7 +158,32 @@ button {
 
 .passage-body { padding-bottom: 4rem; }
 .empty-msg { color: var(--muted); font-style: italic; padding: 2rem 0; }
-.reader-footer { padding: 1rem 0 3rem; }
+.chapter-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 0 0.5rem;
+  border-top: 1px solid var(--rule);
+  gap: 0.5rem;
+}
+.chapter-nav-btn {
+  padding: 0.45rem 1rem;
+  border-radius: var(--radius);
+  background: var(--raised);
+  color: var(--gold);
+  font-size: 0.9rem;
+  transition: background 0.15s;
+  min-width: 5rem;
+}
+.chapter-nav-btn:disabled { color: var(--muted); cursor: default; }
+.chapter-nav-btn:not(:disabled):hover { background: var(--rule); }
+.chapter-nav-label {
+  font-size: 0.8rem;
+  color: var(--soft);
+  white-space: nowrap;
+}
+
+.reader-footer { padding: 0.75rem 0 3rem; }
 .reader-footer small { color: var(--muted); font-size: 0.72rem; }
 
 /* Font scale buttons */
