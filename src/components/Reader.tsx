@@ -18,6 +18,7 @@ interface Props {
   onOpenAdd: () => void;
   onOpenSaved: () => void;
   onOpenToc: () => void;
+  onOpenTopics: () => void;
   onOpenApiKey: () => void;
   hasApiKey: boolean;
   onFontScaleChange: (s: 1 | 2 | 3) => void;
@@ -28,7 +29,7 @@ interface Props {
 export default function Reader({
   passages, activeIdx, selected,
   onSelectVerse, highlights, onHighlightChange,
-  settings, depth, onOpenAdd, onOpenSaved, onOpenToc, onOpenApiKey, hasApiKey,
+  settings, depth, onOpenAdd, onOpenSaved, onOpenToc, onOpenTopics, onOpenApiKey, hasApiKey,
   onFontScaleChange, onJumpToVerse, onSelectChapter,
 }: Props) {
   const active = passages[activeIdx];
@@ -60,6 +61,7 @@ export default function Reader({
               </button>
             ))}
           </div>
+          <button className="topics-btn" onClick={onOpenTopics} aria-label="상황별 말씀 보기">💡 상황별 말씀</button>
           <button className="saved-btn" onClick={onOpenSaved} aria-label="저장한 구절 보기">★ 저장 구절</button>
           <button className="add-btn" onClick={onOpenAdd} aria-label="본문 추가">＋ 본문 추가</button>
           <button

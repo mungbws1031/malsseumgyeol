@@ -3,6 +3,7 @@ import type { Verse, Passage, Depth, Settings } from '../lib/types';
 import type { HighlightMap } from '../lib/storage';
 import { verseKey, toggleHighlight } from '../lib/storage';
 import type { RelatedVerse } from '../data/relatedVerses';
+import { FAMOUS_VERSES } from '../data/topicVerses';
 
 interface Props {
   verse: Verse;
@@ -23,6 +24,7 @@ export default function VerseLine({
 }: Props) {
   const key = verseKey(passage.book, passage.chapter, verse.n);
   const isHighlighted = Boolean(highlights[key]);
+  const isFamous = FAMOUS_VERSES.has(key);
   const pressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const didLongPress = useRef(false);
 
@@ -82,6 +84,9 @@ export default function VerseLine({
       >
         <sup className="verse-num">{verse.n}</sup>
         {verse.text}
+        {isFamous && (
+          <span className="famous-badge" title="설교에 자주 인용되는 구절">애송</span>
+        )}
       </p>
     </div>
   );

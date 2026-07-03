@@ -25,7 +25,8 @@ function save(key: string, value: unknown): void {
 export function loadPassages(): Passage[] {
   const stored = load<Passage[]>(KEY.passages, []);
   if (stored.length === 0) return SEED_PASSAGES;
-  const customOnly = stored.filter((p) => p.custom);
+  // 과거 손상 데이터로 저장된 빈 장(verses 없음) 제거
+  const customOnly = stored.filter((p) => p.custom && p.verses && p.verses.length > 0);
   return [...SEED_PASSAGES, ...customOnly];
 }
 

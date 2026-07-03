@@ -378,6 +378,37 @@ button {
 }
 .saved-btn:hover { border-color: var(--gold); background: rgba(201,162,74,.08); }
 
+.topics-btn {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  color: var(--gold-soft);
+  border: 1px solid var(--rule);
+  border-radius: 20px;
+  padding: 0.3rem 0.8rem;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.topics-btn:hover { border-color: var(--gold); background: rgba(201,162,74,.08); }
+
+.topic-hint {
+  padding: 0.6rem 1.25rem 0.2rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.famous-badge {
+  display: inline-block;
+  margin-left: 0.4rem;
+  padding: 0.05rem 0.4rem;
+  font-size: 0.62rem;
+  font-family: var(--font-sans);
+  color: var(--gold);
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  vertical-align: middle;
+  white-space: nowrap;
+  opacity: 0.85;
+}
+
 /* Book Intro */
 .book-intro {
   margin-bottom: 1.75rem;

@@ -9,6 +9,7 @@ import GlossPanel from './components/GlossPanel';
 import AddPassageModal from './components/AddPassageModal';
 import SavedVerses from './components/SavedVerses';
 import TableOfContents from './components/TableOfContents';
+import TopicVerses from './components/TopicVerses';
 import ApiKeyModal from './components/ApiKeyModal';
 
 export default function App() {
@@ -25,6 +26,7 @@ export default function App() {
   const [glossOpen, setGlossOpen] = useState(false);
   const [showSaved, setShowSaved] = useState(false);
   const [showToc, setShowToc] = useState(false);
+  const [showTopics, setShowTopics] = useState(false);
   const [showApiKey, setShowApiKey] = useState(false);
 
   const doFetchGloss = useCallback((
@@ -159,6 +161,7 @@ export default function App() {
           onOpenAdd={() => setShowAddModal(true)}
           onOpenSaved={() => setShowSaved(true)}
           onOpenToc={() => setShowToc(true)}
+          onOpenTopics={() => setShowTopics(true)}
           onOpenApiKey={() => setShowApiKey(true)}
           hasApiKey={Boolean(settings.apiKey)}
           onFontScaleChange={handleFontScale}
@@ -192,6 +195,12 @@ export default function App() {
           activeChapter={activePassage ? Number(activePassage.chapter) : undefined}
           onSelectChapter={handleSelectChapter}
           onClose={() => setShowToc(false)}
+        />
+      )}
+      {showTopics && (
+        <TopicVerses
+          onJumpTo={(book, chapter, n) => { handleJumpToVerse(book, chapter, n); }}
+          onClose={() => setShowTopics(false)}
         />
       )}
       {showApiKey && (
