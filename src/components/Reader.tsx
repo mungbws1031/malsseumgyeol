@@ -61,15 +61,24 @@ export default function Reader({
               </button>
             ))}
           </div>
-          <button className="topics-btn" onClick={onOpenTopics} aria-label="상황별 말씀 보기">💡 상황별 말씀</button>
-          <button className="saved-btn" onClick={onOpenSaved} aria-label="저장한 구절 보기">★ 저장 구절</button>
-          <button className="add-btn" onClick={onOpenAdd} aria-label="본문 추가">＋ 본문 추가</button>
+          <button className="topics-btn" onClick={onOpenTopics} aria-label="상황별 말씀 보기">
+            <span className="btn-icon">💡</span><span className="btn-label"> 상황별 말씀</span>
+          </button>
+          <button className="saved-btn" onClick={onOpenSaved} aria-label="저장한 구절 보기">
+            <span className="btn-icon">★</span><span className="btn-label"> 저장 구절</span>
+          </button>
+          <button className="add-btn" onClick={onOpenAdd} aria-label="본문 추가">
+            <span className="btn-icon">＋</span><span className="btn-label"> 본문 추가</span>
+          </button>
           <button
             className={`apikey-btn${hasApiKey ? ' set' : ''}`}
             onClick={onOpenApiKey}
             aria-label="API 키 설정"
             title={hasApiKey ? 'API 키 설정됨' : 'API 키 필요'}
-          >{hasApiKey ? '🔑' : '🔑 키 설정'}</button>
+          >
+            <span className="btn-icon">🔑</span>
+            {!hasApiKey && <span className="btn-label"> 키 설정</span>}
+          </button>
         </div>
       </header>
 

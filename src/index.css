@@ -121,6 +121,8 @@ button {
 .reader { max-width: 680px; margin: 0 auto; }
 .reader-header {
   display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap;
+  row-gap: 0.6rem;
   margin-bottom: 1.5rem;
 }
 .app-title {
@@ -128,8 +130,15 @@ button {
   font-size: 1.3rem;
   color: var(--gold);
   font-weight: 600;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
-.reader-header-right { display: flex; align-items: center; gap: 0.75rem; }
+.reader-header-right {
+  display: flex; align-items: center; gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  row-gap: 0.5rem;
+}
 .add-btn {
   font-family: var(--font-sans);
   font-size: 0.8rem;
@@ -177,10 +186,16 @@ button {
 }
 .chapter-nav-btn:disabled { color: var(--muted); cursor: default; }
 .chapter-nav-btn:not(:disabled):hover { background: var(--rule); }
+.chapter-nav-btn { flex-shrink: 0; }
 .chapter-nav-label {
   font-size: 0.8rem;
   color: var(--soft);
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+  min-width: 0;
+  text-align: center;
 }
 
 .reader-footer { padding: 0.75rem 0 3rem; }
@@ -596,4 +611,17 @@ button {
   display: inline-block; font-size: 0.78rem; font-family: var(--font-mono);
   color: var(--gold-soft); margin-bottom: 1.1rem;
   text-decoration: underline; text-underline-offset: 3px;
+}
+
+/* ── Mobile header: icon-only buttons to prevent overflow ─────────── */
+@media (max-width: 560px) {
+  .reader-col { padding: 1.25rem 1rem; }
+  .reader-header { row-gap: 0.5rem; }
+  .reader-header-right { gap: 0.4rem; }
+  .btn-label, .toc-trigger-label { display: none; }
+  .topics-btn, .saved-btn, .add-btn, .apikey-btn, .toc-trigger {
+    padding: 0.4rem 0.55rem;
+  }
+  .chapter-nav-btn { min-width: 3.2rem; padding: 0.45rem 0.6rem; font-size: 0.82rem; }
+  .chapter-nav-label { font-size: 0.72rem; }
 }
