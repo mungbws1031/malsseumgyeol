@@ -465,6 +465,40 @@ button {
   font-size: 0.88rem; color: var(--soft); line-height: 1.8;
 }
 
+.book-intro-section {
+  margin-top: 1.1rem; padding-top: 0.9rem;
+  border-top: 1px solid var(--rule);
+  display: flex; flex-direction: column; gap: 0.5rem;
+}
+.book-intro-section-title {
+  font-size: 0.82rem; font-weight: 600;
+  color: var(--gold-soft); letter-spacing: 0.02em;
+}
+.book-intro-context {
+  display: flex; flex-direction: column; gap: 0.7rem;
+}
+.book-intro-context-item {
+  display: flex; flex-direction: column; gap: 0.15rem;
+}
+.book-intro-context-label {
+  font-family: var(--font-mono); font-size: 0.68rem;
+  color: var(--gold-soft); text-transform: uppercase; letter-spacing: 0.06em;
+}
+.book-intro-views {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-direction: column; gap: 0.55rem;
+}
+.book-intro-views-item {
+  display: flex; flex-direction: column; gap: 0.15rem;
+}
+.book-intro-views-tradition {
+  font-family: var(--font-serif); font-size: 0.82rem;
+  color: var(--gold-soft); font-weight: 600;
+}
+.book-intro-views-text {
+  font-size: 0.86rem; color: var(--soft); line-height: 1.7;
+}
+
 /* ── TOC Trigger button ─────────────────────────── */
 .toc-trigger {
   display: flex; align-items: center; gap: 0.35rem;
