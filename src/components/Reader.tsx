@@ -19,6 +19,7 @@ interface Props {
   onOpenSaved: () => void;
   onOpenToc: () => void;
   onOpenTopics: () => void;
+  onOpenWordWiki: () => void;
   onOpenApiKey: () => void;
   hasApiKey: boolean;
   onFontScaleChange: (s: 1 | 2 | 3) => void;
@@ -29,7 +30,7 @@ interface Props {
 export default function Reader({
   passages, activeIdx, selected,
   onSelectVerse, highlights, onHighlightChange,
-  settings, depth, onOpenAdd, onOpenSaved, onOpenToc, onOpenTopics, onOpenApiKey, hasApiKey,
+  settings, depth, onOpenAdd, onOpenSaved, onOpenToc, onOpenTopics, onOpenWordWiki, onOpenApiKey, hasApiKey,
   onFontScaleChange, onJumpToVerse, onSelectChapter,
 }: Props) {
   const active = passages[activeIdx];
@@ -63,6 +64,9 @@ export default function Reader({
           </div>
           <button className="topics-btn" onClick={onOpenTopics} aria-label="상황별 말씀 보기">
             <span className="btn-icon">💡</span><span className="btn-label"> 상황별 말씀</span>
+          </button>
+          <button className="word-wiki-btn" onClick={onOpenWordWiki} aria-label="단어 위키 보기">
+            <span className="btn-icon">📖</span><span className="btn-label"> 단어 위키</span>
           </button>
           <button className="saved-btn" onClick={onOpenSaved} aria-label="저장한 구절 보기">
             <span className="btn-icon">★</span><span className="btn-label"> 저장 구절</span>

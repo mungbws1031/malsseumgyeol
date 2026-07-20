@@ -10,6 +10,7 @@ import AddPassageModal from './components/AddPassageModal';
 import SavedVerses from './components/SavedVerses';
 import TableOfContents from './components/TableOfContents';
 import TopicVerses from './components/TopicVerses';
+import WordWiki from './components/WordWiki';
 import ApiKeyModal from './components/ApiKeyModal';
 
 export default function App() {
@@ -27,6 +28,7 @@ export default function App() {
   const [showSaved, setShowSaved] = useState(false);
   const [showToc, setShowToc] = useState(false);
   const [showTopics, setShowTopics] = useState(false);
+  const [showWordWiki, setShowWordWiki] = useState(false);
   const [showApiKey, setShowApiKey] = useState(false);
 
   const doFetchGloss = useCallback((
@@ -162,6 +164,7 @@ export default function App() {
           onOpenSaved={() => setShowSaved(true)}
           onOpenToc={() => setShowToc(true)}
           onOpenTopics={() => setShowTopics(true)}
+          onOpenWordWiki={() => setShowWordWiki(true)}
           onOpenApiKey={() => setShowApiKey(true)}
           hasApiKey={Boolean(settings.apiKey)}
           onFontScaleChange={handleFontScale}
@@ -201,6 +204,12 @@ export default function App() {
         <TopicVerses
           onJumpTo={(book, chapter, n) => { handleJumpToVerse(book, chapter, n); }}
           onClose={() => setShowTopics(false)}
+        />
+      )}
+      {showWordWiki && (
+        <WordWiki
+          onJumpTo={handleJumpToVerse}
+          onClose={() => setShowWordWiki(false)}
         />
       )}
       {showApiKey && (

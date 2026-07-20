@@ -404,6 +404,17 @@ button {
 }
 .topics-btn:hover { border-color: var(--gold); background: rgba(201,162,74,.08); }
 
+.word-wiki-btn {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  color: var(--gold-soft);
+  border: 1px solid var(--rule);
+  border-radius: 20px;
+  padding: 0.3rem 0.8rem;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.word-wiki-btn:hover { border-color: var(--gold); background: rgba(201,162,74,.08); }
+
 .topic-hint {
   padding: 0.6rem 1.25rem 0.2rem;
   font-size: 0.8rem;
@@ -653,9 +664,135 @@ button {
   .reader-header { row-gap: 0.5rem; }
   .reader-header-right { gap: 0.4rem; }
   .btn-label, .toc-trigger-label { display: none; }
-  .topics-btn, .saved-btn, .add-btn, .apikey-btn, .toc-trigger {
+  .topics-btn, .word-wiki-btn, .saved-btn, .add-btn, .apikey-btn, .toc-trigger {
     padding: 0.4rem 0.55rem;
   }
   .chapter-nav-btn { min-width: 3.2rem; padding: 0.45rem 0.6rem; font-size: 0.82rem; }
   .chapter-nav-label { font-size: 0.72rem; }
+}
+
+/* ── Word Wiki ─────────────────────────────────── */
+.word-search {
+  padding: 0.7rem 1.1rem 0.4rem;
+  flex-shrink: 0;
+}
+.word-search input {
+  width: 100%;
+  font-family: var(--font-sans); font-size: 0.85rem;
+  color: var(--soft); background: var(--raised);
+  border: 1px solid var(--rule); border-radius: 6px;
+  padding: 0.5rem 0.7rem;
+  transition: border-color 0.15s;
+}
+.word-search input:focus { border-color: var(--gold-soft); outline: none; }
+.word-search input::placeholder { color: var(--muted); }
+
+.word-category-tabs {
+  display: flex; flex-wrap: wrap; gap: 0.35rem;
+  padding: 0.3rem 1.1rem 0.7rem;
+  border-bottom: 1px solid var(--rule);
+  flex-shrink: 0;
+}
+.word-category-tab {
+  font-family: var(--font-mono); font-size: 0.68rem;
+  color: var(--muted);
+  border: 1px solid var(--rule); border-radius: 14px;
+  padding: 0.2rem 0.55rem;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+  white-space: nowrap;
+}
+.word-category-tab:hover { color: var(--soft); }
+.word-category-tab.active {
+  color: var(--gold-soft); border-color: var(--gold-soft);
+  background: rgba(201,162,74,.08);
+}
+
+.word-card-list {
+  list-style: none; overflow-y: auto; flex: 1; padding: 0.5rem 0;
+}
+.word-card {
+  width: 100%; display: flex; flex-direction: column; gap: 0.15rem;
+  padding: 0.7rem 1.1rem;
+  border-bottom: 1px solid var(--rule);
+  text-align: left;
+  transition: background 0.15s;
+}
+.word-card:hover { background: var(--raised); }
+.word-card-term {
+  font-family: var(--font-serif); font-size: 0.95rem;
+  color: var(--gold-soft); font-weight: 600;
+}
+.word-card-original {
+  font-family: var(--font-mono); font-size: 0.7rem;
+  color: var(--muted);
+}
+.word-card-meaning { font-size: 0.82rem; color: var(--soft); }
+
+.word-empty {
+  padding: 1.5rem 1.1rem; text-align: center;
+  color: var(--muted); font-size: 0.85rem;
+}
+
+.word-detail {
+  overflow-y: auto; flex: 1;
+  padding: 0.9rem 1.1rem 1.5rem;
+  display: flex; flex-direction: column; gap: 0.9rem;
+}
+.word-back-btn {
+  align-self: flex-start;
+  font-family: var(--font-mono); font-size: 0.72rem;
+  color: var(--muted);
+  padding: 0.15rem 0;
+  transition: color 0.15s;
+}
+.word-back-btn:hover { color: var(--gold-soft); }
+
+.word-original {
+  display: flex; align-items: baseline; flex-wrap: wrap; gap: 0.5rem;
+}
+.word-original-text {
+  font-family: var(--font-serif); font-size: 1.3rem;
+  color: var(--gold-soft);
+}
+.word-transliteration {
+  font-family: var(--font-mono); font-size: 0.8rem;
+  color: var(--soft); font-style: italic;
+}
+.word-language {
+  font-family: var(--font-mono); font-size: 0.65rem;
+  color: var(--muted);
+  border: 1px solid var(--rule); border-radius: 10px;
+  padding: 0.05rem 0.45rem;
+}
+
+.word-meaning {
+  font-family: var(--font-serif); font-size: 0.95rem;
+  color: var(--soft); font-weight: 600;
+}
+.word-description {
+  font-size: 0.86rem; color: var(--soft); line-height: 1.8;
+}
+
+.word-section {
+  padding-top: 0.8rem; border-top: 1px solid var(--rule);
+  display: flex; flex-direction: column; gap: 0.5rem;
+}
+.word-section-title {
+  font-size: 0.8rem; font-weight: 600;
+  color: var(--gold-soft); letter-spacing: 0.02em;
+}
+.word-verse-list { list-style: none; }
+.word-verse-list .toc-verse-btn { padding: 0.4rem 0; }
+
+.word-related-list { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.word-related-chip {
+  font-family: var(--font-mono); font-size: 0.72rem;
+  padding: 0.2rem 0.6rem;
+  border: 1px solid rgba(201,162,74,.35); border-radius: 20px;
+  color: rgba(201,162,74,.75);
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.word-related-chip:hover {
+  border-color: var(--gold-soft); color: var(--gold-soft);
+  background: rgba(201,162,74,.08);
 }
