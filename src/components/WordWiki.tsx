@@ -53,6 +53,22 @@ export default function WordWiki({ onJumpTo, onClose }: Props) {
             <p className="word-meaning">{selectedWord.meaning}</p>
             <p className="word-description">{selectedWord.description}</p>
 
+            {selectedWord.historicalContext && (
+              <div className="word-section">
+                <span className="book-intro-section-title">시대적 배경</span>
+                <div className="book-intro-context">
+                  <div className="book-intro-context-item">
+                    <span className="book-intro-context-label">동양</span>
+                    <p className="book-intro-text">{selectedWord.historicalContext.east}</p>
+                  </div>
+                  <div className="book-intro-context-item">
+                    <span className="book-intro-context-label">서양</span>
+                    <p className="book-intro-text">{selectedWord.historicalContext.west}</p>
+                  </div>
+                </div>
+              </div>
+            )}
+
             <div className="word-section">
               <h3 className="word-section-title">등장 구절</h3>
               <ul className="word-verse-list">
