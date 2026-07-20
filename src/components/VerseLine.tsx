@@ -1,5 +1,5 @@
 import { useCallback, useRef } from 'react';
-import type { Verse, Passage, Depth, Settings } from '../lib/types';
+import type { Verse, Passage } from '../lib/types';
 import type { HighlightMap } from '../lib/storage';
 import { verseKey, toggleHighlight } from '../lib/storage';
 import type { RelatedVerse } from '../data/relatedVerses';
@@ -11,8 +11,6 @@ interface Props {
   isSelected: boolean;
   highlights: HighlightMap;
   onHighlightChange: (m: HighlightMap) => void;
-  depth: Depth;
-  settings: Settings;
   onSelectVerse: (verse: Verse, passage: Passage) => void;
   related?: RelatedVerse[];
   onJumpTo?: (book: string, chapter: number, n: number) => void;

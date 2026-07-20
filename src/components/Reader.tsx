@@ -1,4 +1,4 @@
-import type { Passage, Verse, Depth, Settings } from '../lib/types';
+import type { Passage, Verse, Settings } from '../lib/types';
 import type { HighlightMap } from '../lib/storage';
 import { verseKey } from '../lib/storage';
 import { RELATED_VERSES } from '../data/relatedVerses';
@@ -14,14 +14,11 @@ interface Props {
   highlights: HighlightMap;
   onHighlightChange: (m: HighlightMap) => void;
   settings: Settings;
-  depth: Depth;
   onOpenAdd: () => void;
   onOpenSaved: () => void;
   onOpenToc: () => void;
   onOpenTopics: () => void;
   onOpenWordWiki: () => void;
-  onOpenApiKey: () => void;
-  hasApiKey: boolean;
   onFontScaleChange: (s: 1 | 2 | 3) => void;
   onJumpToVerse: (book: string, chapter: number, n: number) => void;
   onSelectChapter: (book: string, chapter: number) => void;
@@ -30,7 +27,7 @@ interface Props {
 export default function Reader({
   passages, activeIdx, selected,
   onSelectVerse, highlights, onHighlightChange,
-  settings, depth, onOpenAdd, onOpenSaved, onOpenToc, onOpenTopics, onOpenWordWiki, onOpenApiKey, hasApiKey,
+  settings, onOpenAdd, onOpenSaved, onOpenToc, onOpenTopics, onOpenWordWiki,
   onFontScaleChange, onJumpToVerse, onSelectChapter,
 }: Props) {
   const active = passages[activeIdx];
@@ -74,15 +71,6 @@ export default function Reader({
           <button className="add-btn" onClick={onOpenAdd} aria-label="본문 추가">
             <span className="btn-icon">＋</span><span className="btn-label"> 본문 추가</span>
           </button>
-          <button
-            className={`apikey-btn${hasApiKey ? ' set' : ''}`}
-            onClick={onOpenApiKey}
-            aria-label="API 키 설정"
-            title={hasApiKey ? 'API 키 설정됨' : 'API 키 필요'}
-          >
-            <span className="btn-icon">🔑</span>
-            {!hasApiKey && <span className="btn-label"> 키 설정</span>}
-          </button>
         </div>
       </header>
 
@@ -104,8 +92,6 @@ export default function Reader({
                   }
                   highlights={highlights}
                   onHighlightChange={onHighlightChange}
-                  depth={depth}
-                  settings={settings}
                   onSelectVerse={onSelectVerse}
                   related={RELATED_VERSES[key]}
                   onJumpTo={onJumpToVerse}

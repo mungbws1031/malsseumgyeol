@@ -228,17 +228,17 @@ button {
 .highlight-btn { font-size: 1.1rem; color: var(--muted); transition: color 0.15s; }
 .highlight-btn.active { color: var(--gold); }
 
-.depth-toggle {
+.gloss-tabs {
   display: flex; gap: 0.4rem;
   margin-bottom: 1.5rem;
   background: var(--raised); border-radius: 6px; padding: 3px;
 }
-.depth-btn {
+.gloss-tab {
   flex: 1; font-size: 0.8rem; color: var(--soft);
   padding: 0.35rem 0;
   border-radius: 4px; transition: all 0.15s;
 }
-.depth-btn.active { background: var(--surface); color: var(--gold-soft); }
+.gloss-tab.active { background: var(--surface); color: var(--gold-soft); }
 
 .gloss-body { display: flex; flex-direction: column; gap: 1.2rem; }
 .gloss-block { display: flex; flex-direction: column; gap: 0.3rem; }
@@ -250,16 +250,6 @@ button {
 .kw-word { color: var(--gold-soft); font-size: 0.95rem; }
 .kw-note { color: var(--soft); font-size: 0.88rem; }
 .reflection-q { color: var(--gold-soft); font-style: italic; line-height: 1.8; }
-
-.gloss-loading { color: var(--muted); font-style: italic; padding: 2rem 0; text-align: center; }
-.gloss-error { text-align: center; padding: 1.5rem 0; }
-.gloss-error p { color: var(--soft); margin-bottom: 0.8rem; }
-.retry-btn {
-  padding: 0.4rem 1rem; border: 1px solid var(--gold);
-  color: var(--gold); border-radius: 6px; font-size: 0.85rem;
-  transition: background 0.15s;
-}
-.retry-btn:hover { background: rgba(201,162,74,.15); }
 
 /* Note area */
 .note-area { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
@@ -640,31 +630,13 @@ button {
 .toc-chapters .toc-verse-preview { display: none; }
 .toc-chevron { font-size: 0.6rem; }
 
-/* ── API Key button ─────────────────────────────── */
-.apikey-btn {
-  font-size: 0.75rem; padding: 0.28rem 0.55rem;
-  border-radius: 6px; border: 1px solid var(--rule);
-  color: var(--muted); background: var(--raised);
-  transition: all 0.15s; white-space: nowrap;
-}
-.apikey-btn:hover { border-color: var(--gold-soft); color: var(--gold-soft); }
-.apikey-btn.set { border-color: rgba(201,162,74,.4); color: rgba(201,162,74,.7); }
-
-/* ── API Key Modal overrides ────────────────────── */
-.modal-desc { font-size: 0.82rem; color: var(--soft); line-height: 1.7; margin-bottom: 0.7rem; }
-.modal-link {
-  display: inline-block; font-size: 0.78rem; font-family: var(--font-mono);
-  color: var(--gold-soft); margin-bottom: 1.1rem;
-  text-decoration: underline; text-underline-offset: 3px;
-}
-
 /* ── Mobile header: icon-only buttons to prevent overflow ─────────── */
 @media (max-width: 560px) {
   .reader-col { padding: 1.25rem 1rem; }
   .reader-header { row-gap: 0.5rem; }
   .reader-header-right { gap: 0.4rem; }
   .btn-label, .toc-trigger-label { display: none; }
-  .topics-btn, .word-wiki-btn, .saved-btn, .add-btn, .apikey-btn, .toc-trigger {
+  .topics-btn, .word-wiki-btn, .saved-btn, .add-btn, .toc-trigger {
     padding: 0.4rem 0.55rem;
   }
   .chapter-nav-btn { min-width: 3.2rem; padding: 0.45rem 0.6rem; font-size: 0.82rem; }

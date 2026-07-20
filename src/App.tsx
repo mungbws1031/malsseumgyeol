@@ -1,7 +1,6 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import { loadPassages, loadHighlights, loadSettings, saveSettings, saveCustomPassage } from './lib/storage';
-import { fetchGloss } from './lib/explain';
-import type { Passage, Gloss, Depth, Verse } from './lib/types';
+import type { Passage, Verse } from './lib/types';
 import type { HighlightMap } from './lib/storage';
 import { findChapter } from './data/bible';
 import Reader from './components/Reader';
@@ -11,16 +10,11 @@ import SavedVerses from './components/SavedVerses';
 import TableOfContents from './components/TableOfContents';
 import TopicVerses from './components/TopicVerses';
 import WordWiki from './components/WordWiki';
-import ApiKeyModal from './components/ApiKeyModal';
 
 export default function App() {
   const [passages, setPassages] = useState<Passage[]>(loadPassages);
   const [activeIdx, setActiveIdx] = useState(0);
   const [selected, setSelected] = useState<{ verse: Verse; passage: Passage } | null>(null);
-  const [gloss, setGloss] = useState<Gloss | null>(null);
-  const [glossLoading, setGlossLoading] = useState(false);
-  const [glossError, setGlossError] = useState(false);
-  const [noApiKey, setNoApiKey] = useState(false);
   const [highlights, setHighlights] = useState<HighlightMap>(loadHighlights);
   const [settings, setSettings] = useState(loadSettings);
   const [showAddModal, setShowAddModal] = useState(false);
@@ -29,61 +23,17 @@ export default function App() {
   const [showToc, setShowToc] = useState(false);
   const [showTopics, setShowTopics] = useState(false);
   const [showWordWiki, setShowWordWiki] = useState(false);
-  const [showApiKey, setShowApiKey] = useState(false);
-
-  const doFetchGloss = useCallback((
-    verse: Verse, passage: Passage, depth: Depth,
-  ) => {
-    setGlossLoading(true);
-    setGlossError(false);
-    setNoApiKey(false);
-    setGloss(null);
-    const timeout = new Promise<never>((_, reject) =>
-      setTimeout(() => reject(new Error('timeout')), 20000)
-    );
-    Promise.race([
-      fetchGloss(passage.book, passage.chapter, verse.n, verse.text, depth),
-      timeout,
-    ])
-      .then((g) => { setGloss(g); setGlossLoading(false); })
-      .catch((err) => {
-        setGlossLoading(false);
-        setGlossError(true);
-        if (err instanceof Error && err.message === 'no_api_key') {
-          setNoApiKey(true);
-        }
-      });
-  }, []);
-
-  useEffect(() => {
-    if (!selected) return;
-    doFetchGloss(selected.verse, selected.passage, settings.depth);
-  }, [selected, settings.depth, doFetchGloss]);
 
   const handleSelectVerse = useCallback((verse: Verse, passage: Passage) => {
     setSelected({ verse, passage });
     setGlossOpen(true);
   }, []);
 
-  const handleDepthChange = useCallback((depth: Depth) => {
-    const next = { ...settings, depth };
-    setSettings(next);
-    saveSettings(next);
-  }, [settings]);
-
   const handleFontScale = useCallback((scale: 1 | 2 | 3) => {
     const next = { ...settings, fontScale: scale };
     setSettings(next);
     saveSettings(next);
   }, [settings]);
-
-  const handleSaveApiKey = useCallback((apiKey: string) => {
-    const next = { ...settings, apiKey };
-    setSettings(next);
-    saveSettings(next);
-    // 키 저장 후 현재 선택 구절 자동 재시도
-    if (selected) doFetchGloss(selected.verse, selected.passage, next.depth);
-  }, [settings, selected, doFetchGloss]);
 
   const handleAddPassage = useCallback((p: Passage) => {
     saveCustomPassage(p);
@@ -124,14 +74,12 @@ export default function App() {
       return next;
     });
     setSelected(null);
-    setGloss(null);
     setGlossOpen(false);
   }, []);
 
   const handleJumpTo = useCallback((passageIdx: number, n: number) => {
     setActiveIdx(passageIdx);
     setSelected(null);
-    setGloss(null);
     setGlossOpen(false);
     scrollToVerse(n);
   }, []);
@@ -141,10 +89,6 @@ export default function App() {
     if (idx !== -1) { setActiveIdx(idx); scrollToVerse(n); }
     else handleSelectChapter(book, chapter);
   }, [passages, handleSelectChapter]);
-
-  const handleRetry = useCallback(() => {
-    if (selected) doFetchGloss(selected.verse, selected.passage, settings.depth);
-  }, [selected, settings.depth, doFetchGloss]);
 
   const activePassage = passages[activeIdx];
 
@@ -159,14 +103,11 @@ export default function App() {
           highlights={highlights}
           onHighlightChange={setHighlights}
           settings={settings}
-          depth={settings.depth}
           onOpenAdd={() => setShowAddModal(true)}
           onOpenSaved={() => setShowSaved(true)}
           onOpenToc={() => setShowToc(true)}
           onOpenTopics={() => setShowTopics(true)}
           onOpenWordWiki={() => setShowWordWiki(true)}
-          onOpenApiKey={() => setShowApiKey(true)}
-          hasApiKey={Boolean(settings.apiKey)}
           onFontScaleChange={handleFontScale}
           onJumpToVerse={handleJumpToVerse}
           onSelectChapter={handleSelectChapter}
@@ -176,17 +117,9 @@ export default function App() {
       <div className={`gloss-col${glossOpen ? ' open' : ''}`}>
         <GlossPanel
           selected={selected}
-          gloss={gloss}
-          loading={glossLoading}
-          error={glossError}
-          noApiKey={noApiKey}
-          depth={settings.depth}
-          onDepthChange={handleDepthChange}
           highlights={highlights}
           onHighlightChange={setHighlights}
-          onRetry={handleRetry}
           onClose={() => setGlossOpen(false)}
-          onOpenApiKey={() => setShowApiKey(true)}
         />
       </div>
 
@@ -210,13 +143,6 @@ export default function App() {
         <WordWiki
           onJumpTo={handleJumpToVerse}
           onClose={() => setShowWordWiki(false)}
-        />
-      )}
-      {showApiKey && (
-        <ApiKeyModal
-          current={settings.apiKey}
-          onSave={handleSaveApiKey}
-          onClose={() => setShowApiKey(false)}
         />
       )}
     </div>
