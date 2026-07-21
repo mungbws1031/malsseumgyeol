@@ -19,6 +19,7 @@ interface Props {
   onOpenToc: () => void;
   onOpenTopics: () => void;
   onOpenWordWiki: () => void;
+  onOpenAppendix: () => void;
   onFontScaleChange: (s: 1 | 2 | 3) => void;
   onJumpToVerse: (book: string, chapter: number, n: number) => void;
   onSelectChapter: (book: string, chapter: number) => void;
@@ -27,7 +28,7 @@ interface Props {
 export default function Reader({
   passages, activeIdx, selected,
   onSelectVerse, highlights, onHighlightChange,
-  settings, onOpenAdd, onOpenSaved, onOpenToc, onOpenTopics, onOpenWordWiki,
+  settings, onOpenAdd, onOpenSaved, onOpenToc, onOpenTopics, onOpenWordWiki, onOpenAppendix,
   onFontScaleChange, onJumpToVerse, onSelectChapter,
 }: Props) {
   const active = passages[activeIdx];
@@ -64,6 +65,9 @@ export default function Reader({
           </button>
           <button className="word-wiki-btn" onClick={onOpenWordWiki} aria-label="단어 위키 보기">
             <span className="btn-icon">📖</span><span className="btn-label"> 단어 위키</span>
+          </button>
+          <button className="appendix-btn" onClick={onOpenAppendix} aria-label="부록 보기">
+            <span className="btn-icon">📚</span><span className="btn-label"> 부록</span>
           </button>
           <button className="saved-btn" onClick={onOpenSaved} aria-label="저장한 구절 보기">
             <span className="btn-icon">★</span><span className="btn-label"> 저장 구절</span>

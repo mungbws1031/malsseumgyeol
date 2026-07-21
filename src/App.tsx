@@ -10,6 +10,7 @@ import SavedVerses from './components/SavedVerses';
 import TableOfContents from './components/TableOfContents';
 import TopicVerses from './components/TopicVerses';
 import WordWiki from './components/WordWiki';
+import Appendix from './components/Appendix';
 
 export default function App() {
   const [passages, setPassages] = useState<Passage[]>(loadPassages);
@@ -23,6 +24,7 @@ export default function App() {
   const [showToc, setShowToc] = useState(false);
   const [showTopics, setShowTopics] = useState(false);
   const [showWordWiki, setShowWordWiki] = useState(false);
+  const [showAppendix, setShowAppendix] = useState(false);
 
   const handleSelectVerse = useCallback((verse: Verse, passage: Passage) => {
     setSelected({ verse, passage });
@@ -108,6 +110,7 @@ export default function App() {
           onOpenToc={() => setShowToc(true)}
           onOpenTopics={() => setShowTopics(true)}
           onOpenWordWiki={() => setShowWordWiki(true)}
+          onOpenAppendix={() => setShowAppendix(true)}
           onFontScaleChange={handleFontScale}
           onJumpToVerse={handleJumpToVerse}
           onSelectChapter={handleSelectChapter}
@@ -145,6 +148,7 @@ export default function App() {
           onClose={() => setShowWordWiki(false)}
         />
       )}
+      {showAppendix && <Appendix onClose={() => setShowAppendix(false)} />}
     </div>
   );
 }

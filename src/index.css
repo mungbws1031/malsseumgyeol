@@ -405,6 +405,17 @@ button {
 }
 .word-wiki-btn:hover { border-color: var(--gold); background: rgba(201,162,74,.08); }
 
+.appendix-btn {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  color: var(--gold-soft);
+  border: 1px solid var(--rule);
+  border-radius: 20px;
+  padding: 0.3rem 0.8rem;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.appendix-btn:hover { border-color: var(--gold); background: rgba(201,162,74,.08); }
+
 .topic-hint {
   padding: 0.6rem 1.25rem 0.2rem;
   font-size: 0.8rem;
@@ -636,7 +647,7 @@ button {
   .reader-header { row-gap: 0.5rem; }
   .reader-header-right { gap: 0.4rem; }
   .btn-label, .toc-trigger-label { display: none; }
-  .topics-btn, .word-wiki-btn, .saved-btn, .add-btn, .toc-trigger {
+  .topics-btn, .word-wiki-btn, .appendix-btn, .saved-btn, .add-btn, .toc-trigger {
     padding: 0.4rem 0.55rem;
   }
   .chapter-nav-btn { min-width: 3.2rem; padding: 0.45rem 0.6rem; font-size: 0.82rem; }
@@ -767,4 +778,76 @@ button {
 .word-related-chip:hover {
   border-color: var(--gold-soft); color: var(--gold-soft);
   background: rgba(201,162,74,.08);
+}
+
+/* ── Appendix ──────────────────────────────────── */
+.appendix-list {
+  list-style: none; overflow-y: auto; flex: 1; padding: 0.5rem 0;
+}
+.appendix-card {
+  width: 100%; display: flex; flex-direction: column; gap: 0.15rem;
+  padding: 0.7rem 1.1rem;
+  border-bottom: 1px solid var(--rule);
+  text-align: left;
+  transition: background 0.15s;
+}
+.appendix-card:hover { background: var(--raised); }
+
+.gen-notice {
+  font-size: 0.8rem; color: var(--muted); line-height: 1.7;
+  padding-bottom: 0.7rem; border-bottom: 1px solid var(--rule);
+}
+
+/* ── Genealogy tree ────────────────────────────── */
+.gen-tree {
+  list-style: none;
+  display: flex; flex-direction: column;
+  padding: 0.3rem 0 1rem;
+}
+.gen-children {
+  list-style: none;
+  display: flex; flex-wrap: wrap; gap: 0.9rem;
+  margin: 0.6rem 0 0 1.2rem;
+  padding: 0.6rem 0 0 0.9rem;
+  border-left: 1px solid var(--rule);
+}
+.gen-branch {
+  display: flex; flex-direction: column;
+}
+.gen-branch.gen-link-islamic > .gen-children {
+  border-left-style: dashed;
+}
+.gen-node {
+  display: flex; flex-direction: column; gap: 0.25rem;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 0.55rem 0.75rem;
+  background: var(--raised);
+  min-width: 180px;
+  max-width: 260px;
+}
+.gen-node-source-bible { border-left: 3px solid var(--gold); }
+.gen-node-source-islamic { border-left: 3px dashed var(--gold-soft); }
+.gen-node-badge {
+  align-self: flex-start;
+  font-family: var(--font-mono); font-size: 0.62rem;
+  color: var(--muted);
+  border: 1px solid var(--rule); border-radius: 10px;
+  padding: 0.03rem 0.4rem;
+}
+.gen-node-name {
+  font-family: var(--font-serif); font-size: 0.92rem;
+  color: var(--gold-soft); font-weight: 600;
+}
+.gen-node-subtitle { font-size: 0.76rem; color: var(--soft); }
+.gen-node-note { font-size: 0.78rem; color: var(--soft); line-height: 1.6; }
+
+@media (max-width: 560px) {
+  .gen-tree { padding: 0.3rem 0 1rem; }
+  .gen-children {
+    flex-direction: column;
+    margin-left: 0.6rem;
+    padding-left: 0.6rem;
+  }
+  .gen-node { min-width: unset; max-width: unset; }
 }
