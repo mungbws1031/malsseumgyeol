@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { loadPassages, loadHighlights, loadSettings, saveSettings, saveCustomPassage } from './lib/storage';
 import type { Passage, Verse } from './lib/types';
 import type { HighlightMap } from './lib/storage';
@@ -11,8 +11,14 @@ import TableOfContents from './components/TableOfContents';
 import TopicVerses from './components/TopicVerses';
 import WordWiki from './components/WordWiki';
 import Appendix from './components/Appendix';
+import Splash from './components/Splash';
+
+const SPLASH_VISIBLE_MS = 1600;
+const SPLASH_FADE_MS = 500;
 
 export default function App() {
+  const [showSplash, setShowSplash] = useState(true);
+  const [splashFading, setSplashFading] = useState(false);
   const [passages, setPassages] = useState<Passage[]>(loadPassages);
   const [activeIdx, setActiveIdx] = useState(0);
   const [selected, setSelected] = useState<{ verse: Verse; passage: Passage } | null>(null);
@@ -25,6 +31,12 @@ export default function App() {
   const [showTopics, setShowTopics] = useState(false);
   const [showWordWiki, setShowWordWiki] = useState(false);
   const [showAppendix, setShowAppendix] = useState(false);
+
+  useEffect(() => {
+    const fadeTimer = setTimeout(() => setSplashFading(true), SPLASH_VISIBLE_MS);
+    const hideTimer = setTimeout(() => setShowSplash(false), SPLASH_VISIBLE_MS + SPLASH_FADE_MS);
+    return () => { clearTimeout(fadeTimer); clearTimeout(hideTimer); };
+  }, []);
 
   const handleSelectVerse = useCallback((verse: Verse, passage: Passage) => {
     setSelected({ verse, passage });
@@ -96,6 +108,7 @@ export default function App() {
 
   return (
     <div className="app" style={{ '--fs-base': `var(--fs-scale-${settings.fontScale})` } as React.CSSProperties}>
+      {showSplash && <Splash fadingOut={splashFading} />}
       <div className="reader-col">
         <Reader
           passages={passages}
