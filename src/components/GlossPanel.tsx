@@ -3,11 +3,10 @@ import type { HighlightMap } from '../lib/storage';
 import { verseKey, toggleHighlight, updateNote } from '../lib/storage';
 import { useEffect, useMemo, useState } from 'react';
 import { COMMENTARY_MAP } from '../data/commentary';
-import { BOOK_INTROS } from '../data/bookIntros';
 import { WORD_WIKI } from '../data/wordWiki';
 
-type Tab = '해설' | '역사적 배경' | '단어 뜻';
-const TABS: Tab[] = ['해설', '역사적 배경', '단어 뜻'];
+type Tab = '해설' | '단어 뜻';
+const TABS: Tab[] = ['해설', '단어 뜻'];
 
 interface Props {
   selected: { verse: Verse; passage: Passage } | null;
@@ -30,7 +29,6 @@ export default function GlossPanel({
   const isHighlighted = key ? Boolean(highlights[key]) : false;
   const existingNote = key ? highlights[key]?.note ?? '' : '';
   const commentary = key ? COMMENTARY_MAP[key] ?? null : null;
-  const bookIntro = selected ? BOOK_INTROS[selected.passage.book] : undefined;
 
   const matchedWords = useMemo(() => {
     if (!selected) return [];
@@ -122,23 +120,6 @@ export default function GlossPanel({
             </div>
           ) : (
             <p className="gloss-empty-hint">아직 해설이 없습니다.</p>
-          )
-        )}
-
-        {tab === '역사적 배경' && (
-          bookIntro?.historicalContext ? (
-            <div className="book-intro-context">
-              <div className="book-intro-context-item">
-                <span className="book-intro-context-label">동양</span>
-                <p className="book-intro-text">{bookIntro.historicalContext.east}</p>
-              </div>
-              <div className="book-intro-context-item">
-                <span className="book-intro-context-label">서양</span>
-                <p className="book-intro-text">{bookIntro.historicalContext.west}</p>
-              </div>
-            </div>
-          ) : (
-            <p className="gloss-empty-hint">아직 역사적 배경 정보가 없습니다.</p>
           )
         )}
 
