@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from 'react';
 import { loadPassages, loadHighlights, loadSettings, saveSettings, saveCustomPassage } from './lib/storage';
 import type { Passage, Verse } from './lib/types';
 import type { HighlightMap } from './lib/storage';
-import { findChapter } from './data/bible';
+import { findChapter, loadBibleData } from './data/bible';
 import Reader from './components/Reader';
 import GlossPanel from './components/GlossPanel';
 import AddPassageModal from './components/AddPassageModal';
@@ -19,6 +19,10 @@ const SPLASH_FADE_MS = 500;
 export default function App() {
   const [showSplash, setShowSplash] = useState(true);
   const [splashFading, setSplashFading] = useState(false);
+  const [splashTimerDone, setSplashTimerDone] = useState(false);
+  const [dataReady, setDataReady] = useState(false);
+  const [dataError, setDataError] = useState<string | null>(null);
+  const [retryTick, setRetryTick] = useState(0);
   const [passages, setPassages] = useState<Passage[]>(loadPassages);
   const [activeIdx, setActiveIdx] = useState(0);
   const [selected, setSelected] = useState<{ verse: Verse; passage: Passage } | null>(null);
@@ -34,9 +38,24 @@ export default function App() {
 
   useEffect(() => {
     const fadeTimer = setTimeout(() => setSplashFading(true), SPLASH_VISIBLE_MS);
-    const hideTimer = setTimeout(() => setShowSplash(false), SPLASH_VISIBLE_MS + SPLASH_FADE_MS);
+    const hideTimer = setTimeout(() => setSplashTimerDone(true), SPLASH_VISIBLE_MS + SPLASH_FADE_MS);
     return () => { clearTimeout(fadeTimer); clearTimeout(hideTimer); };
   }, []);
+
+  useEffect(() => {
+    setDataError(null);
+    loadBibleData()
+      .then(() => setDataReady(true))
+      .catch((e) => setDataError(e instanceof Error ? e.message : String(e)));
+  }, [retryTick]);
+
+  // 최소 스플래시 표시 시간이 지났고, 성경 데이터 로딩도 끝났을 때만 스플래시를 숨긴다.
+  // (저사양 기기에서 데이터 로딩이 느리면 스플래시가 그 시간만큼 더 유지된다.)
+  useEffect(() => {
+    if (splashTimerDone && (dataReady || dataError)) {
+      setShowSplash(false);
+    }
+  }, [splashTimerDone, dataReady, dataError]);
 
   const handleSelectVerse = useCallback((verse: Verse, passage: Passage) => {
     setSelected({ verse, passage });
@@ -105,6 +124,24 @@ export default function App() {
   }, [passages, handleSelectChapter]);
 
   const activePassage = passages[activeIdx];
+
+  if (dataError && !dataReady) {
+    return (
+      <div className="app data-error-screen" role="alert">
+        {showSplash && <Splash fadingOut={splashFading} />}
+        <div className="data-error-box">
+          <p className="data-error-title">성경 데이터를 불러오지 못했습니다.</p>
+          <p className="data-error-desc">인터넷 연결을 확인한 뒤 다시 시도해주세요.</p>
+          <button
+            className="data-error-retry"
+            onClick={() => { setShowSplash(true); setSplashFading(false); setSplashTimerDone(true); setRetryTick((n) => n + 1); }}
+          >
+            다시 시도
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="app" style={{ '--fs-base': `var(--fs-scale-${settings.fontScale})` } as React.CSSProperties}>

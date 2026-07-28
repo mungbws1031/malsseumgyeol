@@ -116,6 +116,34 @@ button {
   padding: 2rem 1.5rem;
 }
 
+.data-error-screen {
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+}
+.data-error-box {
+  max-width: 320px;
+}
+.data-error-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+}
+.data-error-desc {
+  color: var(--muted, #888);
+  margin: 0 0 1.25rem;
+  font-size: 0.9rem;
+}
+.data-error-retry {
+  padding: 0.6rem 1.4rem;
+  border-radius: 8px;
+  border: 1px solid var(--rule);
+  background: var(--surface);
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
 .gloss-col {
   width: var(--panel-width);
   border-left: 1px solid var(--rule);
