@@ -80,7 +80,7 @@ export default function VerseLine({
         aria-pressed={isSelected}
         onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleClick(); }}
       >
-        <sup className="verse-num">{verse.n}</sup>
+        <sup className="verse-num">{verse.end ? `${verse.n}-${verse.end}` : verse.n}</sup>
         {verse.text}
         {isFamous && (
           <span className="famous-badge" title="설교에 자주 인용되는 구절">애송</span>
