@@ -189,7 +189,7 @@ export const WORD_WIKI: WikiWord[] = [
     verses: [
       { book: '로마서', chapter: 1, n: 17, ref: '롬 1:17', preview: '복음에는 하나님의 의가 나타나서 믿음으로 믿음에 이르게 하나니' },
       { book: '로마서', chapter: 3, n: 22, ref: '롬 3:22', preview: '곧 예수 그리스도를 믿음으로 말미암아 모든 믿는 자에게 미치는 하나님의 의니' },
-      { book: '마태복음', chapter: 5, n: 6, ref: '마 5:6', preview: '의에 주리고 목마른 자는 복이 있나니 저희가 배부를 것임이요' },
+      { book: '마태복음', chapter: 5, n: 6, ref: '마 5:6', preview: '의에 주리고 목마른 자는 복이 있나니 그들이 배부를 것임이요' },
     ],
     related: ['pistis', 'charis', 'tsedaqah'],
     denominationalViews: [
@@ -303,7 +303,7 @@ export const WORD_WIKI: WikiWord[] = [
       '코이노니아는 단순한 친목을 넘어, 공동의 삶과 소유와 목적을 함께 나누는 깊은 참여적 관계를 뜻합니다. 초대 교회는 사도의 가르침과 떡을 떼는 것과 기도에 힘쓰며 이 코이노니아를 실천했고, 신자들이 그리스도와 성령 안에서 누리는 연합도 이 단어로 표현됩니다.',
     verses: [
       { book: '빌립보서', chapter: 2, n: 1, ref: '빌 2:1', preview: '그리스도 안에 무슨 권면이나 사랑에 무슨 위로나 성령의 무슨 교제나 긍휼이나 자비가 있거든' },
-      { book: '요한복음', chapter: 17, n: 21, ref: '요 17:21', preview: '아버지께서 내 안에, 내가 아버지 안에 있는 것 같이 저희도 하나가 되어' },
+      { book: '요한복음', chapter: 17, n: 21, ref: '요 17:21', preview: '아버지께서 내 안에, 내가 아버지 안에 있는 것 같이 그들도 하나가 되어' },
     ],
     related: ['agape', 'ekklesia'],
     historicalContext: {
